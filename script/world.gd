@@ -52,7 +52,7 @@ func _ready() -> void:
 	var shape: RectangleShape2D = RectangleShape2D.new()
 	shape.size = Vector2(screenWidth * 2 - 64, 50.0)
 	death_block.shape = shape
-	death_block.position = Vector2(32, screenHeight)
+	death_block.position = Vector2(32, screenHeight + 50.0)
 
 
 func _process(delta: float) -> void:

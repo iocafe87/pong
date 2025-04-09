@@ -7,7 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://cbmxpvqwln4lp" path="res://scene/brick.tscn" id="4_m5mgf"]
 [ext_resource type="AudioStream" uid="uid://c8d0tdnxegdv3" path="res://asset/ball_pop_up.wav" id="6_0tg4p"]
 [ext_resource type="AudioStream" uid="uid://bc5gu2d0qkws" path="res://asset/brick_destroy.wav" id="7_hcb8y"]
-[ext_resource type="AudioStream" uid="uid://dkeute8l13vun" path="res://asset/ball_explosion.wav" id="8_y3jn2"]
+[ext_resource type="AudioStream" uid="uid://sf85oy7khf3" path="res://asset/ball_death.wav" id="8_y3jn2"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_txmk2"]
 texture = ExtResource("1_pjass")
