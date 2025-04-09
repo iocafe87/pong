@@ -1,10 +1,13 @@
-[gd_scene load_steps=8 format=4 uid="uid://dnplfrxjowl4x"]
+[gd_scene load_steps=11 format=4 uid="uid://dnplfrxjowl4x"]
 
 [ext_resource type="Script" uid="uid://bs0axy8tefuwm" path="res://script/world.gd" id="1_emkrx"]
 [ext_resource type="Texture2D" uid="uid://7gx1wrm87yhb" path="res://asset/Pong.png" id="1_pjass"]
 [ext_resource type="PackedScene" uid="uid://dxe1gwxh1cymt" path="res://scene/platform.tscn" id="2_txmk2"]
 [ext_resource type="PackedScene" uid="uid://sukp202oaffa" path="res://scene/ball.tscn" id="3_w4qq1"]
 [ext_resource type="PackedScene" uid="uid://cbmxpvqwln4lp" path="res://scene/brick.tscn" id="4_m5mgf"]
+[ext_resource type="AudioStream" uid="uid://c8d0tdnxegdv3" path="res://asset/ball_pop_up.wav" id="6_0tg4p"]
+[ext_resource type="AudioStream" uid="uid://bc5gu2d0qkws" path="res://asset/brick_destroy.wav" id="7_hcb8y"]
+[ext_resource type="AudioStream" uid="uid://dkeute8l13vun" path="res://asset/ball_explosion.wav" id="8_y3jn2"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_txmk2"]
 texture = ExtResource("1_pjass")
@@ -43,3 +46,21 @@ position = Vector2(57, 52)
 collision_layer = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="DeathBlock"]
+
+[node name="Audio" type="Node" parent="."]
+
+[node name="BallPopUp" type="AudioStreamPlayer2D" parent="Audio"]
+stream = ExtResource("6_0tg4p")
+
+[node name="BrickDestroy" type="AudioStreamPlayer2D" parent="Audio"]
+stream = ExtResource("7_hcb8y")
+
+[node name="BallExplosion" type="AudioStreamPlayer2D" parent="Audio"]
+stream = ExtResource("8_y3jn2")
+
+[node name="DeathWait" type="Timer" parent="."]
+wait_time = 2.0
+one_shot = true
+
+[connection signal="body_entered" from="DeathBlock" to="." method="_on_death_block_body_entered"]
+[connection signal="timeout" from="DeathWait" to="." method="_on_death_wait_timeout"]
