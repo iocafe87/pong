@@ -1,12 +1,14 @@
-[gd_scene load_steps=4 format=3 uid="uid://cbmxpvqwln4lp"]
+[gd_scene load_steps=5 format=3 uid="uid://cbmxpvqwln4lp"]
 
 [ext_resource type="Script" uid="uid://b7lv3by33lbr1" path="res://script/brick.gd" id="1_18ifo"]
 [ext_resource type="Texture2D" uid="uid://7gx1wrm87yhb" path="res://asset/Pong.png" id="1_ah86m"]
+[ext_resource type="AudioStream" uid="uid://bc5gu2d0qkws" path="res://asset/brick_destroy.wav" id="3_oigqh"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ah86m"]
 size = Vector2(48, 16)
 
-[node name="Brick" type="Node2D"]
+[node name="Brick" type="StaticBody2D"]
+collision_layer = 2
 script = ExtResource("1_18ifo")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
@@ -15,9 +17,14 @@ texture = ExtResource("1_ah86m")
 region_enabled = true
 region_rect = Rect2(80, 112, 48, 16)
 
-[node name="StaticBody2D" type="StaticBody2D" parent="."]
-collision_layer = 2
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(24, 8)
 shape = SubResource("RectangleShape2D_ah86m")
+
+[node name="BrickDestroy" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("3_oigqh")
+
+[node name="BrickAudioPlayTime" type="Timer" parent="."]
+one_shot = true
+
+[connection signal="timeout" from="BrickAudioPlayTime" to="." method="_on_brick_audio_play_time_timeout"]

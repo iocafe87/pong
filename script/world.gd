@@ -4,15 +4,15 @@ extends Node2D
 @onready var ball: Ball = $Ball
 @onready var death_block: CollisionShape2D = $DeathBlock/CollisionShape2D
 @onready var ball_pop_up: AudioStreamPlayer2D = $Audio/BallPopUp
-@onready var brick_destroy: AudioStreamPlayer2D = $Audio/BrickDestroy
 @onready var ball_explosion: AudioStreamPlayer2D = $Audio/BallExplosion
 @onready var death_wait: Timer = $DeathWait
+@onready var bricks: Node = $Bricks
 
 
 var rng = RandomNumberGenerator.new()
 
 ## 平台和ball左右移动的速度系数
-@export var MOVE_SPEED: float = 500.0
+@export var MOVE_SPEED: float = 420.0
 ## ball飞行的速度
 @export var BALL_SPEED: float = 500.0
 ## ball是否已经发射
@@ -53,6 +53,31 @@ func _ready() -> void:
 	shape.size = Vector2(screenWidth * 2 - 64, 50.0)
 	death_block.shape = shape
 	death_block.position = Vector2(32, screenHeight + 50.0)
+	
+	## 生成砖块
+	_generate_bricks()
+	
+## 生成砖块 
+func _generate_bricks() -> void:
+	var brickRes: Resource = preload("res://scene/brick.tscn")
+	## 先根据整个屏幕的宽度，计算出能够生成的范围（左右两侧，各100的边界）
+	var width: int = screenWidth - 30 - 30
+	var brickWidth: int = 42
+	var brickHeight: int = 16
+	var gap: int = 12
+	var leftBegin: int = 40
+	var topBegin: int = 40
+	
+	## 计算一行能容纳多少
+	var count: int = width / (brickWidth + gap)
+	
+	for x in range(8):
+		for i in count:
+			## 实例化
+			var b: Brick = brickRes.instantiate()
+			var pos: Vector2 = Vector2(leftBegin + i * (brickWidth + gap), topBegin * x)
+			b.position = pos
+			bricks.add_child(b)
 
 
 func _process(delta: float) -> void:
@@ -90,10 +115,19 @@ func _physics_process(delta: float) -> void:
 				## 获取碰撞点的法线
 				var nor: Vector2 = coll.get_normal()
 				## 以法线为中线的反向向量
-				dir = ball.velocity.bounce(nor).normalized()
+				dir = ball.velocity.bounce(nor)
+				## 生成一点随机数值
+				var v: Vector2 = Vector2(rng.randf_range(0, 1), rng.randf_range(0, 1))
+				dir = (dir + v).normalized()
 				
 				ball.velocity = dir * BALL_SPEED * delta
 				ball.move_and_collide(ball.velocity)
+				
+				## 判断碰撞的是否是砖块
+				if coll.get_collider() is Brick:
+					## 发送一个砖块爆炸的信号
+					var b: Brick = coll.get_collider()
+					b.brick_explosion.emit()
 		
 		
 func _unhandled_input(event: InputEvent) -> void:

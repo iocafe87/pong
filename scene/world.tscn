@@ -1,12 +1,10 @@
-[gd_scene load_steps=11 format=4 uid="uid://dnplfrxjowl4x"]
+[gd_scene load_steps=9 format=4 uid="uid://dnplfrxjowl4x"]
 
 [ext_resource type="Script" uid="uid://bs0axy8tefuwm" path="res://script/world.gd" id="1_emkrx"]
 [ext_resource type="Texture2D" uid="uid://7gx1wrm87yhb" path="res://asset/Pong.png" id="1_pjass"]
 [ext_resource type="PackedScene" uid="uid://dxe1gwxh1cymt" path="res://scene/platform.tscn" id="2_txmk2"]
 [ext_resource type="PackedScene" uid="uid://sukp202oaffa" path="res://scene/ball.tscn" id="3_w4qq1"]
-[ext_resource type="PackedScene" uid="uid://cbmxpvqwln4lp" path="res://scene/brick.tscn" id="4_m5mgf"]
 [ext_resource type="AudioStream" uid="uid://c8d0tdnxegdv3" path="res://asset/ball_pop_up.wav" id="6_0tg4p"]
-[ext_resource type="AudioStream" uid="uid://bc5gu2d0qkws" path="res://asset/brick_destroy.wav" id="7_hcb8y"]
 [ext_resource type="AudioStream" uid="uid://sf85oy7khf3" path="res://asset/ball_death.wav" id="8_y3jn2"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_txmk2"]
@@ -34,13 +32,10 @@ tile_map_data = PackedByteArray("AAAAAAAAAgAHAAYAAABHAAAAAgAHAAYAAABGAAAAAgAHAAY
 tile_set = SubResource("TileSet_w4qq1")
 
 [node name="Platform" parent="." instance=ExtResource("2_txmk2")]
-position = Vector2(37, 11)
+
+[node name="Bricks" type="Node" parent="."]
 
 [node name="Ball" parent="." instance=ExtResource("3_w4qq1")]
-position = Vector2(565, 594)
-
-[node name="Brick" parent="." instance=ExtResource("4_m5mgf")]
-position = Vector2(57, 52)
 
 [node name="DeathBlock" type="Area2D" parent="."]
 collision_layer = 0
@@ -51,9 +46,6 @@ collision_layer = 0
 
 [node name="BallPopUp" type="AudioStreamPlayer2D" parent="Audio"]
 stream = ExtResource("6_0tg4p")
-
-[node name="BrickDestroy" type="AudioStreamPlayer2D" parent="Audio"]
-stream = ExtResource("7_hcb8y")
 
 [node name="BallExplosion" type="AudioStreamPlayer2D" parent="Audio"]
 stream = ExtResource("8_y3jn2")
