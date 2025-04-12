@@ -12,9 +12,9 @@ extends Node2D
 var rng = RandomNumberGenerator.new()
 
 ## 平台和ball左右移动的速度系数
-@export var MOVE_SPEED: float = 420.0
+@export var MOVE_SPEED: float = 360.0
 ## ball飞行的速度
-@export var BALL_SPEED: float = 500.0
+@export var BALL_SPEED: float = 400.0
 ## ball是否已经发射
 var isShoot: bool = false
 ## 斜上45度或135度的方向
@@ -71,7 +71,7 @@ func _generate_bricks() -> void:
 	## 计算一行能容纳多少
 	var count: int = width / (brickWidth + gap)
 	
-	for x in range(8):
+	for x in range(5):
 		for i in count:
 			## 实例化
 			var b: Brick = brickRes.instantiate()
